@@ -60,12 +60,12 @@ with st.form("ramalan_form"):
 # -----------------------------------------------------------------------------
 if submitted:
     with st.spinner("🔮 Sedang membaca garis tangan dan bintang-bintang..."):
-        # Prompt ramalan
         prompt = f"Nama: {nama}\nTanggal Lahir: {tanggal_lahir.strftime('%d %B %Y')}\nFokus Ramalan: {fokus}"
         
-        # Daftar model 3.x yang dicoba bergantian jika server sibuk
+        # --- TAMBAHKAN BARIS INI KALO BELUM ADA ---
+        system_instruction = "Kamu adalah seorang peramal garis tangan profesional yang memberikan ramalan secara bijak, menarik, dan menghibur."
+
         models_to_try = ["gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.0-flash"]
-        berhasil = False
 
         for model_name in models_to_try:
             try:
@@ -76,6 +76,19 @@ if submitted:
                         system_instruction=system_instruction,
                         temperature=0.8,
                     ),
+                )
+                st.success("✨ Kristal Takdir Telah Terbuka!")
+                st.markdown(response.text)
+                st.divider()
+                break
+                
+            except Exception as e:
+                if ("503" in str(e) or "429" in str(e)) and model_name != models_to_try[-1]:
+                    continue
+                else:
+                    st.error(f"Terjadi kesalahan saat membaca bola kristal: {e}")
+                    break
+                    
                 )
                 
                 # Jika sukses, tampilkan hasil dan hentikan perulangan
