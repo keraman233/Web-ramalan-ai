@@ -59,6 +59,45 @@ with st.form("ramalan_form"):
 # 4. LOGIKA GENERASI RAMALAN
 # -----------------------------------------------------------------------------
 if submitted:
+    with st.spinner("🔮 Sedang membaca garis tangan dan bintang-bintang..."):
+        # Prompt ramalan
+        prompt = f"Nama: {nama}\nTanggal Lahir: {tanggal_lahir.strftime('%d %B %Y')}\nFokus Ramalan: {fokus}"
+        
+        # Daftar model 3.x yang dicoba bergantian jika server sibuk
+        models_to_try = ["gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.0-flash"]
+        berhasil = False
+
+        for model_name in models_to_try:
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        system_instruction=system_instruction,
+                        temperature=0.8,
+                    ),
+                )
+                
+                # Jika sukses, tampilkan hasil dan hentikan perulangan
+                st.success("✨ Kristal Takdir Telah Terbuka!")
+                st.markdown(response.text)
+                st.divider()
+                berhasil = True
+                break
+                
+            except Exception as e:
+                # Jika server sibuk (503/429), otomatis lanjut coba model berikutnya
+                if ("503" in str(e) or "429" in str(e)) and model_name != models_to_try[-1]:
+                    continue
+                else:
+                    st.error(f"Terjadi kesalahan saat membaca bola kristal: {e}")
+                    break
+                    
+    
+    
+    
+    
+    
     if not nama:
         st.warning("Silakan isi nama kamu terlebih dahulu!")
     else:
