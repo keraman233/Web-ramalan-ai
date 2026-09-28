@@ -76,7 +76,7 @@ if submitted:
                         system_instruction=system_instruction,
                         temperature=0.8,
                     ),
-                )
+                
                 st.success("✨ Kristal Takdir Telah Terbuka!")
                 st.markdown(response.text)
                 st.divider()
