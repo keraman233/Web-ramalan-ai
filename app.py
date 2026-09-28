@@ -40,7 +40,15 @@ st.divider()
 # Form Input Pengguna
 with st.form("ramalan_form"):
     nama = st.text_input("Nama Lengkap / Panggilan:", placeholder="Contoh: Budi")
-    tanggal_lahir = st.date_input("Tanggal Lahir:")
+    import datetime
+
+tanggal_lahir = st.date_input(
+    "Tanggal Lahir:",
+    min_value=datetime.date(1950, 1, 1),
+    max_value=datetime.date.today(),
+    value=datetime.date(2000, 1, 1) # Tanggal default saat web dibuka
+)
+
     fokus = st.selectbox(
         "Apa yang ingin kamu ketahui?",
         ["Asmara & Hubungan 💕", "Karir & Keuangan 💰", "Keberuntungan Umum 🌟", "Saran Mistik Hari Ini 🧘‍♂️"]
