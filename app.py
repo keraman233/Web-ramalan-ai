@@ -98,7 +98,7 @@ if submitted:
                     st.error(f"Terjadi kesalahan saat membaca bola kristal: {e}")
                     break
                     
-                )
+                
                 
                 # Jika sukses, tampilkan hasil dan hentikan perulangan
                 st.success("✨ Kristal Takdir Telah Terbuka!")
