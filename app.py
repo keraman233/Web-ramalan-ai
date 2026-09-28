@@ -44,7 +44,7 @@ with st.form("ramalan_form"):
     tanggal_lahir = st.date_input(
         "Tanggal Lahir:",
         min_value=datetime.date(1950, 1, 1),
-        max_value=datetime.date.today(),
+        max_value=datetime.date(2035, 1, 1),
         value=datetime.date(2000, 1, 1) # Tanggal default saat web dibuka
 )
 
